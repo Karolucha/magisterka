@@ -1,0 +1,52 @@
+
+# rata = S * q^n * (q-1)/(q^n-1)
+# S – kwota zaciągniętego kredytu
+# n – ilość rat
+# q – współczynnik równy 1 + (r / m), gdzie
+# q^n – „q” do potęgi „n”
+# r – oprocentowanie kredytu
+# m – ilość rat w okresie dla którego obowiązuje oprocentowanie „r”. Najczęściej oprocentowanie podawanej jest w skali roku, a raty płacone są co miesiąc, więc „m” wtedy jest równe 12.
+
+
+def count_credit(credit, procent, n=12,m=12):
+    # n = n * 12
+    q = 1 + (procent/100) / m
+    return credit*pow(q,n)*(q-1)/(pow(q,n)-1)
+
+
+# rate = count_credit(1200, 1)
+# print(rate)
+
+# część kapitałowa = początkowa kwota kredytu/ilość wszystkich rat
+# część odsetkowa = kwota kredytu pozostała do spłaty * oprocentowanie w skali roku/ilość rat w roku
+# rata =  część kapitałowa + część odsetkowa
+#
+# Przykład:
+#
+# kwota zaciągniętego kredytu (kwota początkowa) = 100 000 zł
+# oprocentowanie w skali roku =  3,5%
+# okres kredytu = 12 lat
+# ilość rat w roku = 12
+#
+# Pierwsza rata:
+# część kapitałowa = 100 000/(12*12) = 694,44 zł
+# część odsetkowa = 100 000 * 3,5%/12 = 291,67 zł
+# rata = 694,44 + 291,67 = 986,11 zł
+#
+# Druga rata:
+# część kapitałowa = 100 000/(12*12) = 694,44 zł
+# część odsetkowa = (100 000 – 694,44) * 3,5%/12 = 289,64 zł
+# rata = 694,44 + 289,64 = 984,08 z
+def rata_malejaca(suma, procent, okres_kredytu,ilosc_rat_na_rok=12):
+    kapital = suma / (okres_kredytu*ilosc_rat_na_rok)
+    rata = 0
+    odsetki = suma * procent/100 / ilosc_rat_na_rok
+    for i in range(okres_kredytu*ilosc_rat_na_rok):
+        rata = round(kapital + odsetki, 2)
+        odsetki = round((suma - rata) * procent/100 / ilosc_rat_na_rok, 2)
+        print(rata)
+    return rata
+
+
+
+rata_malejaca(100000, 3.5, 12)

@@ -37,7 +37,7 @@ def get_train(records):
     # records.extend(read_articles('poradnikzdrowie'))
     # records.extend(read_articles('articles'))
     for i, record in enumerate(records):
-        records[i] = prepare_article(record)
+        records[i] = prepare_article(record[0])
     # print(records)
     return records
 
@@ -56,27 +56,33 @@ def get_forbiddens():
 
 
 def prepare_article(article):
-    article = re.sub('[().,-:/]', '', article[0]).lower()
-    # article = re.sub('y$', 'a', article[0])
-    # article = re.sub('\d+', '', article[0])
-    article_list = [word.lower() for word in article.split()]
+    # article = re.sub('[().,-:/]', '', article).lower()
+    # # article = re.sub('y$', 'a', article[0])
+    # # article = re.sub('\d+', '', article[0])
+    # article_list = [word.lower() for word in article.split()]
+    # forbiddens = get_forbiddens()
+    # for i, word in enumerate(article_list):
+    #     if word in forbiddens:
+    #         del article_list[i]
+    #     else:
+    #         article_list[i] = unify_token(word)
 
-    for forbidden in get_forbiddens():
-        if forbidden in article:
-            article = article.replace(' ' + forbidden + ' ', ' ')
-            # article = re.sub(' ' + forbidden + ' ', ' ', article)
-
-    counter = pandas.value_counts(article.split())
     return article
     # return islice(OrderedDict(counter), 3)
 
-
+from sklearn import neural_network
 def unify_token(token):
-    results = os.system('cat morfologik.txt | less /' + token)
-    print(results)
+    # results = os.system('cat morfologik.txt | less /' + token)
 
+    with open('morfologik.txt', 'r', encoding='utf-8-sig') as infile:
+        for line in infile:
+            line_content = line.split(sep=';')
+            if token == line_content[1]:
+                return line_content[0]
+    return token
 
-# unify_token('kotek')
+from sklearn import svm
+# print(unify_token('alkoholowa'))
 
 # result = get_train(read_articles('doz'))
-# print(result)
+print(prepare_article('Przeciwciała anty-TPO nie występują we krwi osoby zdrowej, dlatego ich obecność zawsze zwiastuje choroby tarczycy. Aby dowiedzieć się, na które schorzenie wskazują przeciwciała, należy oznaczyć ich stężenie we krwi. Sprawdź, na czym polega badanie przeciwciał anty-TPO, jakie są wskazania do badania i jak interpretować wyniki badań.'))

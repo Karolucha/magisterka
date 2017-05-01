@@ -8,7 +8,7 @@ from sklearn.preprocessing import Normalizer
 import numpy as np
 
 from learn.reader import get_train, read_articles, example_article
-
+from kohonen import kohonen
 dataset = get_train(read_articles('dr_medi'))
 # labels = dataset.target
 # true_k = np.unique(dataset).shape[0]
@@ -44,25 +44,26 @@ for i in range(8):
 # print("Homogeneity: %0.3f" % metrics.homogeneity_score(X, km.labels_))
 # print("Completeness: %0.3f" % metrics.completeness_score(X, km.labels_))
 # print("V-measure: %0.3f" % metrics.v_measure_score(X, km.labels_))
+from sklearn import utils
 
 
-# article = example_article('doz')
-article = ['katar alergia']
-X = vectorizer.fit_transform(article)
-true_k = np.unique(article).shape[0]
-vectorizer = TfidfVectorizer()
-# X = vectorizer.fit_transform(dataset)
-X = vectorizer.fit_transform(article)
-print(X.shape)
-svd = TruncatedSVD(true_k)
-lsa = make_pipeline(svd, Normalizer(copy=False))
-
-X = lsa.fit_transform(X)
-
-prediction = km.predict(X)
-# print(prediction)
-
-def vectorize_data(X):
-    X = vectorizer.fit_transform(X)
-    X = lsa.fit_transform(X)
-    return X
+    # article = example_article('doz')
+# article = ['katar alergia']
+# X = vectorizer.fit_transform(article)
+# true_k = np.unique(article).shape[0]
+# vectorizer = TfidfVectorizer()
+# # X = vectorizer.fit_transform(dataset)
+# X = vectorizer.fit_transform(article)
+# print(X.shape)
+# svd = TruncatedSVD(true_k)
+# lsa = make_pipeline(svd, Normalizer(copy=False))
+#
+# X = lsa.fit_transform(X)
+# 111121112
+# prediction = km.predict(X)
+# # print(prediction)
+#
+# def vectorize_data(X):
+#     X = vectorizer.fit_transform(X)
+#     X = lsa.fit_transform(X)
+#     return X
